@@ -6,7 +6,7 @@ import { UserWarning } from './UserWarning';
 import { getTodos, USER_ID } from './api/todos';
 import { Todo } from './types/Todo';
 import { useState } from 'react';
-import {Loader} from './components/Loader';
+import { Loader } from './components/Loader';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -14,11 +14,8 @@ export const App: React.FC = () => {
   const [showError, setShowError] = useState('');
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
-
   useEffect(() => {
     if (!USER_ID) {
-      setShowError('User ID is missing');
-
       return;
     }
 
@@ -160,8 +157,8 @@ export const App: React.FC = () => {
           </button>
         </footer>
       </div>
-      {loading && (
-      <Loader />
+
+      {loading && <Loader />}
 
       {/* DON'T use conditional rendering to hide the notification */}
       {/* Add the 'hidden' class to hide the message smoothly */}

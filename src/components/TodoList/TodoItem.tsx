@@ -1,25 +1,30 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
+import { Loader } from '../Loader';
 
 type Props = {
   todo: Todo;
 };
 
 export const TodoItem: React.FC<Props> = ({ todo }) => {
-  const { id, title, completed, isLoading } = todo;
+  const { id, title, completed } = todo;
 
   return (
     <div data-cy="Todo" className={`todo ${completed ? 'completed' : ''}`}>
-      <label htmlFor={`todo-status-${todo.id}`} className="todo__status-label">
+      <label className="todo__status-label" htmlFor={`todo-status-${id}`}>
         <input
-          id={`todo-status-${todo.id}`}
+          id={`todo-status-${id}`}
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={todo.completed}
-          disabled={todo.isLoading}
+          checked={completed}
+          disabled
         />
+        {title}
       </label>
+      <span data-cy="TodoTitle" className="todo__title">
+        {title}
+      </span>
 
       <span data-cy="TodoTitle" className="todo__title">
         {title}
@@ -34,12 +39,7 @@ export const TodoItem: React.FC<Props> = ({ todo }) => {
         ×
       </button>
 
-      {isLoading && (
-        <div data-cy="TodoLoader" className="modal overlay is-active">
-          <div className="modal-background has-background-white-ter" />
-          <div className="loader" />
-        </div>
-      )}
+      {todo.isLoading && <Loader />}
     </div>
   );
 };
