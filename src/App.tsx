@@ -19,7 +19,7 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<FilterType>(FILTERS.ALL);
 
-  const { error, hideError, isVisible } = useErrorNotification();
+  const { error, hideError, isVisible, showError } = useErrorNotification();
 
   const filteredTodos = selectFilteredTodos(todos, filter);
   const activeTodosCount = selectActiveCount(todos);
@@ -37,13 +37,13 @@ export const App: React.FC = () => {
       getTodos()
         .then(setTodos)
         .catch(() => {
-          //showError('Unable to load todos');
+          showError('Unable to load todos');
         })
         .finally(() => {
           setLoading(false);
         });
     }, 1000);
-  }, []);
+  }, [showError]);
 
   if (!USER_ID) {
     return <UserWarning />;
@@ -166,7 +166,9 @@ export const App: React.FC = () => {
       {/* Add the 'hidden' class to hide the message smoothly */}
       <div
         data-cy="ErrorNotification"
-        className={`notification is-danger is-light has-text-weight-normal ${!isVisible ? 'hidden' : ''}`}
+        className={`notification is-danger is-light has-text-weight-normal ${
+          isVisible ? '' : 'hidden'
+        }`}
       >
         <button
           data-cy="HideErrorButton"
